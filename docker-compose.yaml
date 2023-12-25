@@ -1,0 +1,60 @@
+version: '3.3'
+
+services:
+
+  mysql-server:
+
+    image: mysql:8.2.0
+    container_name: mysql-server
+    restart: unless-stopped
+    env_file:
+      - database.env
+    ports:
+      - 3606:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - database
+
+  adminer:
+
+    image: adminer:4.8.1-standalone
+    container_name: adminer
+    restart: always
+    env_file:
+      - database.env
+    ports:
+      - 8080:8080
+    networks:
+      - database
+    depends_on:
+      - mysql-server
+
+  neo4j_server:
+
+    image: neo4j:5.15.0-community
+    container_name: neo4j-server
+    restart: unless-stopped
+    env_file:
+      - database.env
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neo4j-data:/data/
+    networks:
+      - database
+
+
+volumes:
+
+  mysql-data:
+    external: True
+
+  neo4j-data:
+    external: True
+
+networks:
+
+  database:
+    external: True
