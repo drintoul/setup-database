@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  neo4j-server:
+
+    container_name: neo4j-server
+    image: neo4j:5.15.0-community
+    restart: unless-stopped
+    env_file:
+      - neo4j.env
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neo4j-data:/data/
+    networks:
+      - database
+
+
+volumes:
+
+  neo4j-data:
+    external: True
+
+
+networks:
+
+  database:
+    external: True
