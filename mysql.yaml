@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+
+  mysql-server:
+
+    container_name: mysql-server
+    image: mysql:8.2.0
+    restart: unless-stopped
+    env_file:
+      - mysql.env
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - database
+
+  adminer:
+
+    container_name: adminer
+    image: adminer:4.8.1-standalone
+    restart: always
+    env_file:
+      - mysql.env
+    ports:
+      - 8080:8080
+    networks:
+      - database
+    depends_on:
+      - mysql-server
+
+
+volumes:
+
+  mysql-data:
+    external: True
+
+
+networks:
+
+  database:
+    external: True
