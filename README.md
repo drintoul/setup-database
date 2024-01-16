@@ -1,6 +1,4 @@
 # setup-database
-Setup Database Virtual Machine Server
-
 Docker Compose files to setup the following services:
 
 <ol>
